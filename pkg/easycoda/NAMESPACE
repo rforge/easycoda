@@ -1,5 +1,5 @@
 import(ca)
-importFrom("grDevices", "rainbow",)
+importFrom("grDevices", "rainbow")
 importFrom("graphics", "abline", "arrows", "axTicks", "axis", "par",
            "plot", "points", "segments", "text")
 importFrom("stats", "var")
