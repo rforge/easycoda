@@ -7,7 +7,8 @@ Plot the results of a logratio analysis
 Various maps and biplots of the results of a logratio analysis using function \code{LRA}.
 }
 \usage{
-PLOT.LRA(obj, map="symmetric", rescale=1, dim=c(1,2), main="", cex=c(0.8,0.8), col=c("blue","red"), colarrows = "pink", axes.inv = c(1,1))
+PLOT.LRA(obj, map="symmetric", rescale=1, dim=c(1,2), main="", cex=c(0.8,0.8),
+         col=c("blue","red"), colarrows = "pink", axes.inv = c(1,1))
 }
 \arguments{
   \item{obj}{

@@ -7,7 +7,9 @@ Dot plot
 Simple dot plot of original data
 }
 \usage{
-DOT(data, cols=NA, names=NA, groups=NA, pch=19, horizon=FALSE, jitter=1, xscale=NA, xscalefac=1, yaxis=TRUE, shownames=TRUE, main="", ylab="", xlim=c(NA,NA), ylim=c(NA, NA), cex=1)
+DOT(data, cols=NA, names=NA, groups=NA, pch=19, horizon=FALSE, jitter=1, 
+     xscale=NA, xscalefac=1, yaxis=TRUE, shownames=TRUE, main="", ylab="", 
+     xlim=c(NA,NA), ylim=c(NA, NA), cex=1)
 }
 \arguments{
   \item{data}{

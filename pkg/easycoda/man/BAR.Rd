@@ -7,8 +7,9 @@ Compositional bar plot
 Horizontal bar plot of compositional data
 }
 \usage{
-BAR(data, cols=rainbow(ncol(data)), col.names=colnames(data), row.names=rownames(data), order.column=NA, 
-    eps=0.5, main="", ylab="", ylim=c(0,nrow(data)), xlim=c(0,100), cex=1)
+BAR(data, cols=rainbow(ncol(data)), col.names=colnames(data),
+    row.names=rownames(data), order.column=NA, eps=0.5, main="",
+    ylab="", ylim=c(0,nrow(data)), xlim=c(0,100), cex=1)
 }
 \arguments{
   \item{data}{
