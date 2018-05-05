@@ -5,14 +5,7 @@ BAR <- function(data,
                 order.column=NA, eps=0.5,
                 main="", ylab="", 
                 ylim=c(0,nrow(data)), xlim=c(0,100), 
-                width=7, height=5, 
                 cex=1) {
-
-# check platform for opening window
-  if(.Platform$OS.type=="windows") {
-    quartz<-function(width=width, height=height) windows(width=width, height=height)
-  }
-  quartz(width=width, height=height)
 
 # order of samples
   neworder <- 1:nrow(data)
