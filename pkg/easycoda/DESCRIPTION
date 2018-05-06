@@ -2,12 +2,13 @@ Package: easyCODA
 Type: Package
 Depends:ca (>= 0.6)
 Title: Compositional Data Analysis in Practice
-Version: 0.2
-Date: 2018-05-01
+Version: 0.21
+Date: 2018-05-06
 Author: Michael Greenacre
 Maintainer: Michael Greenacre <michael.greenacre@upf.edu>
-Description: easyCODA is a package for compositional data analysis, based on logratios.
-    The package accompanies the book 
-    "Compositional Data Analysis in Practice" 
-    by Michael Greenacre (Chapman & Hall / CRC Press, 2018).
+Description: Accompanies the book 
+             "Compositional Data Analysis in Practice" 
+             by Michael Greenacre (Chapman & Hall / CRC Press, 2018),
+             and provides methods for compositional data analysis 
+             based on log-ratios 
 License: GPL

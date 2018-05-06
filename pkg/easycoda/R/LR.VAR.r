@@ -40,8 +40,10 @@ LR.VAR <- function(LRdata, row.wt = NA, weight=TRUE, vars=FALSE) {
 # column-centre the data matrix, many variances
     LRfoo <- sweep(LRfoo, 2, apply(LRfoo * row.wt, 2, sum)) 
     LRtotvar <- sum(diag(row.wt) %*% LRfoo^2 %*% diag(weights))
-    if(vars) LRvars <- apply(diag(row.wt) %*% LRfoo^2 %*% diag(weights), 2, sum)
-    names(LRvars) <- colnames(LRfoo)
+    if(vars) {
+      LRvars <- apply(diag(row.wt) %*% LRfoo^2 %*% diag(weights), 2, sum)
+      names(LRvars) <- colnames(LRfoo)
+    }
   }
   if(!vars) return(LRtotvar)
   if(vars)  return(list(LRtotvar=LRtotvar, LRvars=LRvars))
