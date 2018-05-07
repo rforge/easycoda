@@ -2,13 +2,10 @@ Package: easyCODA
 Type: Package
 Depends:ca (>= 0.6)
 Title: Compositional Data Analysis in Practice
-Version: 0.21
-Date: 2018-05-06
+Version: 0.22
+Date: 2018-05-07
 Author: Michael Greenacre
 Maintainer: Michael Greenacre <michael.greenacre@upf.edu>
-Description: Accompanies the book 
-             "Compositional Data Analysis in Practice" 
-             by Michael Greenacre (Chapman & Hall / CRC Press, 2018),
-             and provides methods for compositional data analysis 
-             based on log-ratios 
+Description: Methods for compositional data analysis, based on logratios,
+             accompanying the book "Compositional Data Analysis in Practice".
 License: GPL
