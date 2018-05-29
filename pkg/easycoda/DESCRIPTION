@@ -3,7 +3,7 @@ Type: Package
 Depends:ca (>= 0.6)
 Title: Compositional Data Analysis in Practice
 Version: 0.23
-Date: 2018-05-07
+Date: 2018-05-29
 Author: Michael Greenacre
 Maintainer: Michael Greenacre <michael.greenacre@upf.edu>
 Description: Univariate and multivariate methods for compositional data analysis, 
