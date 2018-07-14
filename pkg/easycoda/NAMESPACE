@@ -1,4 +1,4 @@
-import(ca)
+import(ca, vegan)
 importFrom("grDevices", "rainbow")
 importFrom("graphics", "abline", "arrows", "axTicks", "axis", "par",
            "plot", "points", "segments", "text")

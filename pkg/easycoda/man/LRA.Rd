@@ -62,7 +62,7 @@ The function borrows the structure and functions of the \code{ca} package, which
   \item{coldist   }{Column logratio distances to centroid}
   \item{colinertia}{Column inertias}
   \item{colcoord  }{Column standard coordinates}
-  \item{rowpcoord }{Column principal coordinates}
+  \item{colpcoord }{Column principal coordinates}
   \item{N         }{The compositional data table}
 }
 \references{
