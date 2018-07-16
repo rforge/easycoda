@@ -89,6 +89,7 @@ author[5,17] <- 0.5
 # form compositional table of relative frequencies
 author.comp <- author / apply(author, 1, sum)
 # (weighted) logratio analysis (default is weighted = TRUE)
+author.LRA1 <- LRA(author.comp)
 plot(author.LRA1)	
 PLOT.LRA(author.LRA1)
 # unweighted logratio analysis
