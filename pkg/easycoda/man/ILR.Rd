@@ -20,7 +20,7 @@ Vector of parts in the numerator
 Vector of parts in the denominator
 }
   \item{weight}{
-Logical indicating if a varying weight is returned (default:\code{TRUE}). If \code{FALSE} a weight based on equally-weighted parts is returned. Alternatively a positive weight can be specified.
+Logical indicating if a varying weight is returned (default:\code{TRUE}). If \code{FALSE}, a weight based on equally-weighted parts is returned. Alternatively a positive weight can be specified.
 }
 }
 \details{
@@ -35,7 +35,7 @@ The function \code{ILR} computes a single isometric logratio based on the specif
   }
 }
 \references{
-Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall. 
+Aitchison, J. (1986), The Statistical Analysis of Compositional Data, Chapman & Hall.  \cr
 Greenacre, M. (2018), Compositional Data Analysis in Practice, Chapman & Hall / CRC Press.
 }
 \author{

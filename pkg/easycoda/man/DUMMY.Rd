@@ -24,8 +24,9 @@ The function \code{DUMMY} takes a categorical variable and converts it to a set 
 Michael Greenacre
 }
 \examples{
+# Indicator (dummy) coding of sex in FishMorphology data set
 data(fish)
 sex   <- fish[,1]
-sex.Z <- DUMMY(sex) 
+sex.Z <- DUMMY(sex, catnames=c("F","M")) 
 }
 \keyword{coding}

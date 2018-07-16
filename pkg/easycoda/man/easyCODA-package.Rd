@@ -23,7 +23,7 @@ Greenacre, Michael (2018) Compositional Data Analysis in Practice. Chapman & Hal
 }
 \keyword{package}
 \seealso{
-\code{\link[ca]{ca}}, \code{\link[vegan]{vegan}}
+\code{\link[ca]{ca}}
 }
 \examples{
 # Roman cups glass compositions
@@ -41,6 +41,6 @@ which(author == 0, arr.ind = TRUE)
 # replace it with 0.5 for the logratio analysis
 author[5,17] <- 0.5
 # LRA (weighted by default)
-# Here the ca plot function is used
+# Here the ca plot function plot.ca is used
 plot(LRA(author))
 }

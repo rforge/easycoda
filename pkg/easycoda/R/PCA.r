@@ -1,4 +1,4 @@
-PCA <- function(data, nd = NA, weight = TRUE, row.wt = NA, suprow = NA, supcol = NA) {
+PCA <- function(data, nd = 2, weight = TRUE, row.wt = NA, suprow = NA, supcol = NA) {
 # data          interval-scaled data table (e.g. logratios)
 # nd            number of dimensions for summary output, 2 by default
 # weight        = TRUE (default) when weights are in logratio list object

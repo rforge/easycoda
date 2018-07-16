@@ -4,14 +4,14 @@
 Principal component analysis
 }
 \description{
-Computation of weighted and unweighted principal component analysis of a matrix of interval-scale data (e.g. a matrix of logratios).
+Computation of weighted or unweighted principal component analysis of a matrix of interval-scale data (e.g. a matrix of logratios).
 }
 \usage{
-PCA(data, nd = NA, weight = TRUE, row.wt = NA, suprow = NA, supcol = NA)
+PCA(data, nd = 2, weight = TRUE, row.wt = NA, suprow = NA, supcol = NA)
 }
 \arguments{
   \item{data}{
-A data frame or matrix of interval-scale data
+A data frame or matrix of interval-scale data, or logratio object from functions \code{ALR}, \code{CLR} or \code{LR}
 }
  \item{nd}{
 Number of dimensions for summary solution if not 2
@@ -34,7 +34,7 @@ The function \code{PCA} computes an unstandardized principal component analysis,
 For general usage the unweighted option \code{weight = FALSE} might be preferred, but the default is weighted in the present context of compositional data.
 
 User-specified weights can be supplied, for the rows and/or the columns.
-Usually row weights are not specified, they are equal unless intentional weighting of the samples is desired.
+Usually row weights are not specified, and are equal unless intentional weighting of the samples is desired.
 User-specified part weights can be provided using the \code{weight} option. 
 
 Supplementary rows and columns can be declared (also known as passive points) -- these do not contribute to the solution but are positioned on the solution axes. Notice that this optyion is not implemented in the present version, but will appear in the next one.

@@ -4,13 +4,13 @@
 Plot the results of a redundancy analysis
 }
 \description{
-Various maps and biplots of the results of a redundancy analysis using function \code{RDA}.
+Various maps and biplots/triplots of the results of a redundancy analysis using function \code{RDA}.
 }
 \usage{
 PLOT.RDA(obj, map="symmetric", indcat=NA, rescale=1, dim=c(1,2), main="", 
-         axes.inv=c(1,1), rowstyle=1, col=c("blue","red","forestgreen"), 
+         axes.inv=c(1,1), rowstyle=1, cols=c("blue","red","forestgreen"), 
          colarrows=c("pink","lightgreen"), colrows=NA, pchrows=NA, colcat=NA,
-         cex=c(0.8,0.8,0.8), font=c(2,4,4))
+         cexs=c(0.8,0.8,0.8), fonts=c(2,4,4))
 }
 \arguments{
   \item{obj}{
@@ -37,7 +37,7 @@ Option for reversing directions of horizontal and vertical axes (default is c(1,
  \item{rowstyle}{
 Scaling option for row coordinates, either 1 (SVD coordinates, default) or 2 (as supplementary points)
 }
- \item{col}{
+ \item{cols}{
 Colours for row and column  and covariate labels (default is c("blue","red","forestgreen"))
 }
  \item{colarrows}{
@@ -52,15 +52,15 @@ Optional vector of point symbols for rows
  \item{colcat}{
 Optional vector of colours for covariate categories (dummy variables)
 }
- \item{cex}{
+ \item{cexs}{
 Vector of character expansion factors for row and column and covariate labels (default is c(0.8,0.8,0.8))
 }
- \item{font}{
+ \item{fonts}{
 Vector of font styles for row and column and covariate labels (default is c(2,4,4))
 }
 }
 \details{
-The function \code{PLOT.RDA} makes a scatterplot of the results of a redundancy analysis (computed using function \code{RDA}), with various options for scaling the results and changing the direction of the axes.  By default, dimensions 1 and 2 are plotted on the horizontal and vertical axes, and it is assumed that row points refer to samples and columns to compositional parts.   Covariates are plotted, and if they contain dummy (or fuzzy) variables these are indicated by the option indcat, so be plotted as centroids not arrows.
+The function \code{PLOT.RDA} makes a scatterplot of the results of a redundancy analysis (computed using function \code{RDA}), with various options for scaling the results and changing the direction of the axes.  By default, dimensions 1 and 2 are plotted on the horizontal and vertical axes, and it is assumed that row points refer to samples and columns to compositional parts.   Covariates are plotted according to their regression coefficients with the RDA dimensions, and if they contain dummy (or fuzzy) variables these are indicated by the option indcat, and hence plotted as centroids not arrows.
 
 By default, the symmetric scaling is used, where both rows and columns are in principal coordinates and have the same amount of weighted variance along the two dimensions. The other options are the asymmetric option, when columns are in standard coordinates, and the contribution option, when columns are in contribution coordinates.  In cases where the row and column displays as well as the covariate positions occupy widely different extents, the column and covariate coordinates can be rescaled using the \code{rescale} option. 
 }
