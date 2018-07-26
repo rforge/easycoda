@@ -8,8 +8,10 @@ PCA <- function(data, nd = 2, weight = TRUE, row.wt = NA, suprow = NA, supcol = 
 # suprow        columns of supplementary (passive) rows
 # supcol        columns of supplementary (passsive) columns
 
-
-# first check if data is a list
+# first check if data is a dataframe, if so make it a matrix
+  if(is.data.frame(data)) data <- as.matrix(data)
+   
+# then check if data is a list
   foo <- data
   data.wt <- 0
   if(is.list(foo)) {

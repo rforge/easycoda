@@ -7,8 +7,8 @@ Stepwise selection of logratios
 Stepwise selection of pairwise logratios that explain maximum variance in a target matrix.
 }
 \usage{
-STEP(data, datatarget=data, weight=TRUE, random=FALSE, 
-     nsteps=min(ncol(data), ncol(datatarget))-1, top=1)
+STEP(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE, 
+     random=FALSE, nsteps=min(ncol(data), ncol(datatarget))-1, top=1)
 }
 \arguments{
   \item{data}{
@@ -16,6 +16,12 @@ A data frame or matrix of compositional data on which pairwise logratios are com
 }
  \item{datatarget}{
 A matrix of interval-scale data, with as many rows as \code{data}, which serves as the target matrix whose variance is to be explained (by default it is the same matrix as data, in which case total logratio variance is to be explained)
+}
+ \item{previous}{
+A vector or matrix of variables to be forced in before logratios are sought
+}
+ \item{previous.wt}{
+Possible weights of the variable(s) forced in before logratios are sought (if not specified, weights of 1 are assumed)
 }
   \item{weight}{
 \code{TRUE} (default) when weights are in data list object, \code{FALSE} for unweighted analysis, or a vector of user-defined part weights
