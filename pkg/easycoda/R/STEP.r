@@ -168,7 +168,7 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
     }
     R2max <- c(R2max, max(R2))
 #    R2max <- c(R2max, max(R2[R2<0.999999]))
-    foo <- as.matrix(which(abs(R2-max(R2))<1E-8, arr.ind=TRUE))
+    foo <- as.matrix(which(abs(R2-max(R2))<1E-10, arr.ind=TRUE))
     if(nrow(foo)==1) ratios <- rbind(ratios, foo)
     if(nrow(foo)>1 & !random) {
 # tie: find best Procrustes fit
@@ -240,4 +240,3 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
   return(list(rationames=rationames, ratios=ratios, logratios=logratios, R2max=R2max, procr=procrust, 
          rationames.top=rationames.top, ratios.top=ratios.top, logratios.top=logratios.top, R2.top=R2.top, procr.top=procrust.top))
 }
-
