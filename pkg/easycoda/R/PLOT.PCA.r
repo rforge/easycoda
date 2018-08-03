@@ -32,12 +32,12 @@ PLOT.PCA <- function(obj, map="symmetric", rescale=1, dim=c(1,2), main="",
          xaxt="n", yaxt="n", main=main)
     axis(1)
     axis(2)
-    axis(3, at=axTicks(3), labels=round(axTicks(3)/rescale, 1), col="black", col.ticks="red", col.axis="red")
-    axis(4, at=axTicks(4), labels=round(axTicks(4)/rescale, 1), col="black", col.ticks="red", col.axis="red")
+    axis(3, at=axTicks(3), labels=round(axTicks(3)/rescale, 1), col="black", col.ticks=col[2], col.axis=col[2])
+    axis(4, at=axTicks(4), labels=round(axTicks(4)/rescale, 1), col="black", col.ticks=col[2], col.axis=col[2])
   }
   abline(h=0, v=0, col="gray", lty=2)
   if(map != "symmetric") arrows(0, 0, 0.95*rescale*obj.crd[,1], 0.95*rescale*obj.crd[,2], length=0.1, angle=10, col="pink", lwd=2)
-  text(obj.rpc, labels=obj$rownames, col="blue", font=2, cex=0.8)
-  text(rescale*obj.crd, labels=obj$colnames, col="red", cex=0.8, font=4)
+  text(obj.rpc, labels=obj$rownames, col=col[1], font=2, cex=0.8)
+  text(rescale*obj.crd, labels=obj$colnames, col=col[2], cex=0.8, font=4)
 }
 
