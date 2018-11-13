@@ -42,7 +42,8 @@ In this case, weights for the data matrix are assumed by default, proportional t
 For the unweighted logratio variance, specify the option \code{weight=FALSE}. 
 User-specified weights on the columns of the data matrix (usually compositional parts) can be provided using the same \code{weight} option. 
 
-If the target matrix is a different matrix, it is assumed that its regular total variance is to be explained, not its logratio variance.
+If the target matrix is a different matrix, it is the logratio variance of that matrix that is to be explained.
+An option for the target matrix to be any response matrix will be in the next release.
 
 If \code{nsteps > 1} and \code{top=1} the results are in the form of an optimal set of logratios that sequentially add maximum explained variance at each step.  If \code{top>1} then at the last step the ordered list of top variance-explaining logratios is returned, which allows users to make an alternative choice of the logratio based on substantive knowledge. Hence, if \code{nsteps=1} and \code{top=10}, for example, the procedure will move only one step, but list the top 10 logratios for that step.
 }
@@ -57,6 +58,7 @@ If \code{nsteps > 1} and \code{top=1} the results are in the form of an optimal 
   \item{logratios.top  }{Matrix of "top" logratios}
   \item{R2.top         }{Sequence of "top" cumulative explained variances (in descending order)}
   \item{procr.top      }{Corresponding sequence of "top" Procrustes correlations}
+  \item{totvar     }{Total logratio variance of target matrix}
 }
 \references{
 Van den Wollenbergh, A. (1977), Redundancy analysis. An alternative to canonical correlation analysis, Psychometrika 42, 207-219.\cr

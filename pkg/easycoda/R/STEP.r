@@ -2,6 +2,7 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
 
 # updated 22/7/2018 to allow user-defined weights, like other functions in easyCODA
 # second update, same day: include previous logratios or other variables forced in first
+# updated 8/11/2018 to set rownames of ratios.top to be rationames.top
 
 # stepwise variable selection process to find logratios that
 # explain maximum variance
@@ -37,12 +38,11 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
   if(sum(data==0)>0) stop("Zero values in matrix data on which logratios constructed -- please replace")
   if(sum(datatarget==0)>0) stop("Zero data values in datatarget matrix -- please replace")
   
-# if same data reduce target to logratios and compute total variance
-# if not same data, use datatarget "as is", simply centre and compute total variance  
-  if(datasame & (length(weight)==1)) {
-    ldata <- log(datatarget)
+# sort out the weights, arriving at an r and a c in each case
+  if(length(weight)==1) {             # weight=TRUE or FALSE
 # unweighted logratio variance
     if(!weight) {
+      ldata <- log(datatarget)
       ldata <- sweep(ldata, 1, apply(ldata, 1, mean))
       r <- rep(1/nrow(data), nrow(data))
       ldata <- sweep(ldata, 2, apply(ldata, 2, mean))
@@ -55,7 +55,8 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
 # weighted logratio variance
       r <- apply(datatarget, 1, sum) / sum(datatarget)
       c <- apply(datatarget, 2, sum) / sum(datatarget)
-      data.mr  <- apply(as.matrix(ldata) %*% diag(c), 1, sum)
+      ldata <- log(datatarget)
+      data.mr  <- apply(ldata %*% diag(c), 1, sum)
       data.c1 <- sweep(ldata, 1, data.mr) 
       data.c2 <- sweep(data.c1, 2, apply(data.c1, 2, mean)) 
       ldata <- diag(sqrt(r)) %*% data.c2 %*% diag(sqrt(c))     
@@ -64,7 +65,7 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
       data.rpc <- ldata.svd$u[,nontriv] %*% diag(ldata.svd$d[nontriv]) * (1/sqrt(r))
     }
   }
-  if(datasame & (length(weight)==ncol(data))) {
+  if(length(weight)==ncol(data)) {
 # logratio variance with given weights
     ldata <- log(datatarget)
     r <- apply(datatarget, 1, sum) / sum(datatarget)
@@ -77,15 +78,6 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
     nontriv <- which(ldata.svd$d > 1.e-12)
     data.rpc <- ldata.svd$u[,nontriv] %*% diag(ldata.svd$d[nontriv]) * (1/sqrt(r))
   }
-  if(!datasame) {
-    r <- rep(1/nrow(data), nrow(data))
-    ldata <- datatarget
-    ldata <- sweep(ldata, 2, apply(ldata, 2, mean))
-    ldata <- sqrt(1/nrow(data)) * ldata * sqrt(1/ncol(data))
-    ldata.svd <- svd(ldata)
-    nontriv <- which(ldata.svd$d > 1.e-12)
-    data.rpc <- ldata.svd$u[,nontriv] %*% diag(ldata.svd$d[nontriv]) * (1/sqrt(r))    
-  }  
 
 # column variances
   data.rpc.scale <- diag(sqrt(r)) %*% data.rpc 
@@ -134,6 +126,7 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
     ratios.top <- which(R2 >= R2.top[top], arr.ind=TRUE)
     ratios.top <- ratios.top[order(R2[ratios.top], decreasing=TRUE),]
     rationames.top <- paste(colnames(data)[ratios.top[,1]], colnames(data)[ratios.top[,2]], sep="/" )
+    rownames(ratios.top) <- rationames.top
     logratios.top  <- log(data[,ratios.top[,1]]/data[,ratios.top[,2]])
     procrust.top <- rep(0,top)
     for(jratio in 1:top) {
@@ -141,8 +134,8 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
       if(!is.na(previous[1])) procrust.top[jratio] <- protest(data.rpc, cbind(previous, logratios.top[,jratio]), permutations=0)$t0
     } 
     colnames(logratios.top) <- rationames.top
-    return(list(rationames=rationames, ratios=ratios, logratios=logratios, R2max=R2max, procr=procrust, 
-           rationames.top=rationames.top, ratios.top=ratios.top, logratios.top=logratios.top, R2.top=R2.top, procr.top=procrust.top))
+    return(list(names=rationames, ratios=ratios, logratios=logratios, R2max=R2max, procr=procrust, 
+           rationames.top=rationames.top, ratios.top=ratios.top, logratios.top=logratios.top, R2.top=R2.top, procr.top=procrust.top, totvar=ldata.totvar))
   }
   
 # loop over ratios as many times as there are columns in data minus 1
@@ -189,7 +182,7 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
       ratios <- rbind(ratios, foo[1,])
     }
   }
-  if(nratios==nsteps) R2max[nratios] <- 1
+  if(nratios==nsteps & datasame) R2max[nratios] <- 1
   logratios <- cbind(logratios, log(data[,ratios[nsteps,1]]/data[,ratios[nsteps,2]]))
   for(jratio in 1:nsteps) rationames[jratio] <- paste(colnames(data)[ratios[jratio,1]], colnames(data)[ratios[jratio,2]], sep="/" )
   colnames(logratios) <- rationames
@@ -237,6 +230,6 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
     }
     colnames(logratios.top) <- rationames.top
   }
-  return(list(rationames=rationames, ratios=ratios, logratios=logratios, R2max=R2max, procr=procrust, 
-         rationames.top=rationames.top, ratios.top=ratios.top, logratios.top=logratios.top, R2.top=R2.top, procr.top=procrust.top))
+  return(list(names=rationames, ratios=ratios, logratios=logratios, R2max=R2max, procr=procrust, 
+         names.top=rationames.top, ratios.top=ratios.top, logratios.top=logratios.top, R2.top=R2.top, procr.top=procrust.top, totvar=ldata.totvar))
 }
