@@ -3,6 +3,8 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
 # updated 22/7/2018 to allow user-defined weights, like other functions in easyCODA
 # second update, same day: include previous logratios or other variables forced in first
 # updated 8/11/2018 to set rownames of ratios.top to be rationames.top
+# updated 14/11/2018 to set names of ratios to be names (not rationames) and 
+#   names of top ratios to be names.top (not rationames.top))
 
 # stepwise variable selection process to find logratios that
 # explain maximum variance
@@ -114,8 +116,8 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
     rationames <- paste(colnames(data)[ratios[1,1]], colnames(data)[ratios[1,2]], sep="/" )
     if(is.na(previous[1])) procrust <- protest(data.rpc, logratios, permutations=0)$t0
     if(!is.na(previous[1])) procrust <- protest(data.rpc, cbind(previous, logratios), permutations=0)$t0
-    return(list(rationames=rationames, ratios=ratios, logratios=logratios, R2max=R2max, procr=procrust, 
-           rationames.top=rationames, ratios.top=ratios, logratios.top=logratios, R2.top=R2max, procr.top=procrust))
+    return(list(names=rationames, ratios=ratios, logratios=logratios, R2max=R2max, pro.cor=procrust,
+                totvar=ldata.totvar))
   }
   if(nsteps==1 & top>1) {
     logratios  <- log(data[,ratios[1,1]]/data[,ratios[1,2]])
@@ -134,8 +136,9 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
       if(!is.na(previous[1])) procrust.top[jratio] <- protest(data.rpc, cbind(previous, logratios.top[,jratio]), permutations=0)$t0
     } 
     colnames(logratios.top) <- rationames.top
-    return(list(names=rationames, ratios=ratios, logratios=logratios, R2max=R2max, procr=procrust, 
-           rationames.top=rationames.top, ratios.top=ratios.top, logratios.top=logratios.top, R2.top=R2.top, procr.top=procrust.top, totvar=ldata.totvar))
+    return(list(names=rationames, ratios=ratios, logratios=logratios, R2max=R2max, pro.cor=procrust, 
+                names.top=rationames.top, ratios.top=ratios.top, logratios.top=logratios.top, R2.top=R2.top, pro.cor.top=procrust.top, 
+                totvar=ldata.totvar))
   }
   
 # loop over ratios as many times as there are columns in data minus 1
@@ -205,11 +208,14 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
   rownames(ratios) <- rationames
 # If nsteps < nratios and top > 1 evaluate top's ratios etc...'  
   if(top==1) {
-    rationames.top <- rationames[nsteps]
-    ratios.top     <- ratios[nsteps,]
-    logratios.top  <- logratios[,nsteps]
-    R2.top         <- R2max[nsteps]
-    procrust.top   <- procrust[nsteps]
+# (not necessary to return these .top values, already in main results)  
+#    rationames.top <- rationames[nsteps]
+#    ratios.top     <- ratios[nsteps,]
+#    logratios.top  <- logratios[,nsteps]
+#    R2.top         <- R2max[nsteps]
+#    procrust.top   <- procrust[nsteps]
+    return(list(names=rationames, ratios=ratios, logratios=logratios, R2max=R2max, pro.cor=procrust, 
+                totvar=ldata.totvar))
   }
   if(nsteps<nratios & top>1){
     R2.top     <- sort(R2, decreasing=TRUE)[1:top]
@@ -229,7 +235,8 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
       procrust.top[jratio] <- protest(data.rpc, foorats.w, permutations=0)$t0
     }
     colnames(logratios.top) <- rationames.top
+    return(list(names=rationames, ratios=ratios, logratios=logratios, R2max=R2max, pro.cor=procrust, 
+                names.top=rationames.top, ratios.top=ratios.top, logratios.top=logratios.top, R2.top=R2.top, pro.cor.top=procrust.top, 
+                totvar=ldata.totvar))
   }
-  return(list(names=rationames, ratios=ratios, logratios=logratios, R2max=R2max, procr=procrust, 
-         names.top=rationames.top, ratios.top=ratios.top, logratios.top=logratios.top, R2.top=R2.top, procr.top=procrust.top, totvar=ldata.totvar))
 }
