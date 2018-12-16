@@ -1,18 +1,26 @@
 LR.VAR <- function (LRdata, row.wt = NA, weight = TRUE, vars = FALSE) 
-{
-    if (!is.list(LRdata)) {
+{   
+# should be a matrix of logratios or a list object with $LR
+# check introduced 16/12/2018
+    
+    if (is.data.frame(LRdata) | is.matrix(LRdata)) {
         LRfoo <- as.matrix(LRdata)
+        if(abs(sum(LRfoo)-nrow(LRfoo))<0.001 | abs(sum(LRfoo)- 100*nrow(LRfoo))<0.1 ) 
+            stop("This seems to be compositional matrix, should be logratios")
         weights <- rep(1/ncol(LRfoo), ncol(LRfoo))
     }
-    if (is.list(LRdata)) {
-        LRfoo <- LRdata$LR
+    if (is.list(LRdata) & !is.data.frame(LRdata)) {
+       LRfoo <- LRdata$LR
+       if(abs(sum(LRfoo)-nrow(LRfoo))<0.001 | abs(sum(LRfoo)- 100*nrow(LRfoo))<0.1 ) 
+            stop("This seems to be compositional matrix, should be logratios")
+
         if (!weight[1]) 
             weights <- rep(1/ncol(LRfoo), ncol(LRfoo))
         if (weight[1] & (ncol(LRfoo) > 1)) 
             weights <- LRdata$LR.wt
         if (length(weight) == ncol(LRfoo)) {
             if (sum(weight <= 0) > 0) 
-                stop("Error: some weights zero or negative")
+                stop("Some weights zero or negative")
             if (sum(weight) != 1) 
                 print("Sum of column weights not exactly 1, but are rescaled")
             weights <- weight/sum(weight)
