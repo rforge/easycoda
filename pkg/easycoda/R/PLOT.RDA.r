@@ -1,6 +1,6 @@
 PLOT.RDA <- function(obj, map="symmetric", indcat=NA, rescale=1, dim=c(1,2), main="", 
                      axes.inv=c(1,1), rowstyle=1, cols=c("blue","red","forestgreen"), 
-                     colarrows=c("pink","lightgreen"), colrows=NA, pchrows=NA, colcat=NA,
+                     colarrows=c("pink","lightgreen"), colrows=NA, pchrows=NA, colcats=NA,
                      cexs=c(0.8,0.8,0.8), fonts=c(2,4,4)) {
 # plotting function for RDA objects
 # obj        RDA object 
@@ -14,7 +14,7 @@ PLOT.RDA <- function(obj, map="symmetric", indcat=NA, rescale=1, dim=c(1,2), mai
 # colarrows  colour for arrows in asymmetric and contribution biplots
 # colrows    (optional) vector of colours for rows
 # pchrows    (optional) vector of symbols for rows
-# colcat     (optional) vector of colours for category means
+# colcats     (optional) vector of colours for category means
 # cexs       expansion/contraction factors for row, column and covariate labels (default: c(0.8,0.8,0.8))
 # fonts      fonts for row, column and covariate labels (default: c(2,4,4))
 

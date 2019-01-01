@@ -6,6 +6,7 @@ STEP <- function(data, datatarget=data, previous=NA, previous.wt=NA, weight=TRUE
 # updated 14/11/2018 to set names of ratios to be names (not rationames) and 
 #   names of top ratios to be names.top (not rationames.top))
 # updated 16/12/2018 to sort out weights for possible additional variables in data
+# updated 27/12/2018 replacing data with datatarget in computing target weights
 
 # stepwise variable selection process to find logratios that
 # explain maximum variance
