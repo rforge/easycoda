@@ -1,4 +1,5 @@
 PLR <- function (data, ordering = 1:ncol(data), weight = TRUE) 
+# updated 21/01/2019
 {
     if (sum(data == 0) > 0) 
         stop("Error: some data values are zero")
@@ -19,6 +20,8 @@ PLR <- function (data, ordering = 1:ncol(data), weight = TRUE)
         stop("ordering is not a permutation of the columns of data matrix")
     plr <- matrix(0, nrow(data), ncol(data) - 1)
     data <- data[, ordering]
+# this re-arrangement added 21/01/2019
+    weights <- weights[ordering]
     colnames(plr) <- 1:(ncol(data) - 1)
     plr.weights <- rep(0, ncol(data) - 1)
     for (j in 1:(ncol(data) - 1)) {
