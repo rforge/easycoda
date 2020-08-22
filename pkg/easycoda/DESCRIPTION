@@ -1,7 +1,7 @@
 Package: easyCODA
 Type: Package
-Version: 0.34
-Date: 2020-08-17
+Version: 0.34.1
+Date: 2020-08-22
 Depends: ca (>= 0.7), vegan (>= 2.3), ellipse (>= 0.4.1)
 Title: Compositional Data Analysis in Practice
 Author: Michael Greenacre
