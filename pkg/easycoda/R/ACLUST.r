@@ -1,5 +1,6 @@
-ACLUST <- function(data, close=TRUE) {
+ACLUST <- function(data, weight=TRUE, close=TRUE) {
 ### amalgamation clustering of columns of a compositional data matrix
+### default is with weights = part averages summing to 1
 
 ### easyCODA preparation 
 
@@ -9,8 +10,21 @@ ACLUST <- function(data, close=TRUE) {
    if(sum(data==0) > 0) stop("Error: some data values are zero")
    data.pro <- data
    if(close) data.pro <- CLOSE(data)
+#  cm are the column massses
+   if(length(weight==1) & !weight[1]) cm <- rep(1/ncol(data), ncol(data))
+   if(length(weight)==1 & weight[1])  cm <- colMeans(CLOSE(data))
 
-   data.clr <- CLR(data.pro, weight=FALSE)$LR
+   if(length(weight) > 1) {
+     if(length(weight) != ncol(data.pro)) stop("Number of specified column weights not equal to number of columns of data")
+     if(sum(weight <= 0) > 0) stop("Column weights have to be all positive")
+     cm <- weight / sum(weight)
+  }
+
+   data.clr <- CLR(CLOSE(data.pro), weight=cm)$LR
+   TOTVAR <- LR.VAR(CLR(CLOSE(data.pro), weight=cm))
+#   if(length(weight)==1 & weight[1])  data.clr <- CLR(CLOSE(data.pro), weight=TRUE)$LR
+#   if(length(weight) > 1) data.clr <- CLR(CLOSE(data.pro), weight=cm)$LR
+
    n <- nrow(data.pro)
    m <- ncol(data.pro)
 
@@ -31,10 +45,16 @@ ACLUST <- function(data, close=TRUE) {
        foo.j1j2      <- as.numeric(data.pro[,j1] + data.pro[,j2])
        data.foo[,j1] <- foo.j1j2
        data.foo      <- data.foo[,-j2]
-       foo.rda       <- rda(data.clr ~ CLR(data.foo, weight=FALSE)$LR)
+#       if(length(weight==1) & !weight[1]) foo.rda <- rda(data.clr ~ CLR(data.foo, weight=FALSE)$LR)
+#       if(length(weight)==1 & weight[1])  foo.rda <- rda(data.clr ~ CLR(data.foo, weight=TRUE)$LR)
+#       if(length(weight) > 1)             foo.rda       <- rda(data.clr ~ CLR(data.foo, weight=cm)$LR)
 #       foo.rda       <- RDA(data.clr, cov=CLR(data.foo, weight=FALSE)$LR, weight=FALSE)
 #       diss[j1,j2]   <- diss[j2,j1] <- sum(foo.rda$sv^2)
-       diss[j1,j2]   <- diss[j2,j1] <- (foo.rda$CA$tot.chi/m)*(n-1)/n
+       if(length(weight==1) & !weight[1]) foo.RDA <- RDA(data.clr, CLR(data.foo, weight=FALSE)$LR, weight=cm)
+       if(length(weight==1) & weight[1])  foo.RDA <- RDA(data.clr, CLR(data.foo, weight=TRUE)$LR, weight=cm)
+       if(length(weight) > 1)             foo.RDA <- RDA(data.clr, CLR(data.foo, weight=TRUE)$LR, weight=cm)
+#       diss[j1,j2]   <- diss[j2,j1] <- (foo.rda$CA$tot.chi/m)*(n-1)/n
+       diss[j1,j2]   <- diss[j2,j1] <- TOTVAR - sum(foo.RDA$sv^2)
        }
    }
 
@@ -74,7 +94,7 @@ ACLUST <- function(data, close=TRUE) {
    mmsmmsdiss <- list(mm=mm, mmdiss=mmdiss)
 
    clusmat <- matrix(0, m, m)                 # cluster memberships
-   for (j in 1:m) clusmat[j,m]                 <- j           # init. trivial partition
+   for (j in 1:m) clusmat[j,m] <- j           # init. trivial partition
 
    MAXVAL <- 1.0e12
 
@@ -166,15 +186,30 @@ ACLUST <- function(data, close=TRUE) {
                  foo.j1j2      <- as.numeric(data.pro2[,j1] + data.pro2[,j2])
                  data.foo[,j1] <- foo.j1j2
                  exclude       <- c(j2, which(flag==0))
-                 if(ncl>2) foo.rda  <- rda(data.clr ~ CLR(data.foo[,-exclude], weight=FALSE)$LR)
-#                 if(ncl>2) foo.rda <- RDA(data.clr, cov=CLR(data.foo[,c(1,5,9)], weight=FALSE)$LR, weight=FALSE)
-                 if(ncl<=2) foo.rda <- rda(data.clr ~ 1)
-                 diss[j1,j2]   <- diss[j2,j1] <- (foo.rda$CA$tot.chi/m)*(n-1)/n
-#                 diss[j1,j2]   <- diss[j2,j1] <- sum(foo.rda$sv^2)
+                 if(ncl>2) {
+#                   if(length(weight==1) & !weight[1]) foo.rda  <- rda(data.clr ~ CLR(data.foo[,-exclude], weight=FALSE)$LR)
+#                   if(length(weight==1) & weight[1])  foo.rda  <- rda(data.clr ~ CLR(data.foo[,-exclude], weight=TRUE)$LR)
+#                   if(length(weight) > 1) foo.rda  <- rda(data.clr ~ CLR(data.foo[,-exclude], weight=FALSE)$LR)
+                   if(length(weight==1) & !weight[1]) foo.RDA  <- RDA(data.clr, cov=CLR(data.foo[,-exclude], weight=FALSE)$LR, weight=cm)
+                   if(length(weight==1) & weight[1])  foo.RDA  <- RDA(data.clr, cov=CLR(data.foo[,-exclude], weight=TRUE)$LR, weight=cm)
+                   if(length(weight) > 1)             foo.RDA  <- RDA(data.clr, cov=CLR(data.foo[,-exclude], weight=TRUE)$LR, weight=cm)
+                   diss[j1,j2]   <- diss[j2,j1] <- TOTVAR - sum(foo.RDA$sv^2)
                  }
-              }
-            }
-         }
+#                if(ncl>2) foo.rda <- RDA(data.clr, cov=CLR(data.foo[,c(1,5,9)], weight=FALSE)$LR, weight=FALSE)
+#                if(ncl<=2) foo.rda <- rda(data.clr ~ 1)
+# NOTE THAT $CA is the unexplained part, which is what you want to have in lev
+#                diss[j1,j2]   <- diss[j2,j1] <- (foo.rda$CA$tot.chi/m)*(n-1)/n
+
+                 if(ncl<=2) {
+#                   if(length(weight==1) & !weight[1]) diss[j1,j2] <- diss[j2,j1] <- LR.VAR(CLR(CLOSE(data.pro), weight=FALSE))
+#                   if(length(weight)==1 & weight[1])  diss[j1,j2] <- diss[j2,j1] <- LR.VAR(CLR(CLOSE(data.pro), weight=TRUE))
+#                   if(length(weight) > 1)             diss[j1,j2] <- diss[j2,j1] <- LR.VAR(CLR(CLOSE(data.pro), weight=cm))
+                   diss[j1,j2] <- diss[j2,j1] <- LR.VAR(CLR(CLOSE(data.pro), weight=cm))
+                 }
+               }
+             }
+          }
+        }
 
 #       mass[clus2] <- 0.0
 #       for (i in 1:n) {
@@ -207,7 +242,8 @@ ACLUST <- function(data, close=TRUE) {
 ### compatibility with hierclust after "function" call
 
    mmsmmsdiss <- list(mm=mm, mmdiss=mmdiss)
-        }
+   }
+
    temp <- cbind(a,b)
    merge2 <- temp[nrow(temp):1, ]
    temp <- cbind(ia,ib)
@@ -240,7 +276,7 @@ ACLUST <- function(data, close=TRUE) {
         }
    }
    orderlist <- (-orderlist)
-   class(orderlist) <- "integer"
+   class(orderlist) <- "integer              "
    
    xcall <- "hierclust(a,wt)"
    class(xcall) <- "call"

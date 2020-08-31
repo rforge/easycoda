@@ -14,7 +14,7 @@ WARD(LRdata, weight=TRUE, row.wt=NA)
 Matrix of logratios, either a vector or preferably the logratio object resulting from one of the functions ALR, CLR, PLR or LR  (usually CLRs will be used))
 }
   \item{weight}{
-\code{TRUE} (default) when column weights are in data list object, \code{FALSE} for unweighted analysis, or a vector of user-defined column weights
+\code{TRUE} (default) for weighted analysis (in which case weights are in the logratio object), \code{FALSE} for unweighted analysis, or a vector of user-defined column weights
 }
  \item{row.wt}{
 Optional set of row weights (default is equal weights when \code{row.wt=NA})

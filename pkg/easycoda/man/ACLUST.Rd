@@ -7,11 +7,14 @@ Amalgamation clustering of the parts of a compositional data matrix
 This function clusters the parts of a compositional data matrix, using amalgamation of the parts at each step.
 }
 \usage{
-ACLUST(data, close=TRUE)
+ACLUST(data, weight = TRUE, close = TRUE)
 }
 \arguments{
   \item{data}{
 Compositional data matrix, with the parts as columns
+}
+  \item{weight}{
+\code{TRUE} (default) for weighting using part averages of closed compositions, \code{FALSE} for unweighted analysis, or a vector of user-defined column weights
 }
   \item{close}{
 \code{TRUE} (default) will close the rows of \code{data} prior to clustering, \code{FALSE} leaves \code{data} as it is
@@ -46,11 +49,11 @@ Michael Greenacre
 \examples{
 data(cups)
 
-# amalgamation clustering    (unweighted parts)
+# amalgamation clustering    (weighted parts)
 cups.aclust <- ACLUST(cups)
 plot(cups.aclust)
 
-# reproducing Figure 2(b) of Greenacre (2019)
+# reproducing Figure 2(b) of Greenacre (2019) (unweighted parts))
 # dataset Aar is in the compositions package
 # aar is a subset of Aar
 # code given here within the '\dontrun' environment since external package 'compositions' required
@@ -58,7 +61,7 @@ plot(cups.aclust)
   library(compositions)
   data(Aar)
   aar <- Aar[,c(3:12)]
-  aar.aclust <- ACLUST(aar)
+  aar.aclust <- ACLUST(aar, weight=FALSE)
 # the maximum height is the total variance
 # convert to percents of variance NOT explained
   aar.aclust$height <- 100 * aar.aclust$height / max(aar.aclust$height)
