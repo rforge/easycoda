@@ -23,7 +23,6 @@ Compositional data matrix, with the parts as columns
 \details{
 The function \code{ACLUST} performs amalgamation hierarchical clustering on the parts (columns) of a given compositional data matrix, as proposed by Greenacre (2019).
 At each step of the clustering two clusters are amalgamated that give the least loss of explained logratio variance.
-This version does not weight the parts (a weighting option will be added later).
 }
 \value{
 An object which describes the tree produced by the clustering process on the n objects. The object is a list with components:
